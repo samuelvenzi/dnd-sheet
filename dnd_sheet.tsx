@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Trash2, Plus, ChevronDown, ChevronUp, Download, Upload, RotateCcw, Skull, Heart, Sun, Moon } from "lucide-react";
 
 const CLASSES = [{name:"Barbarian",hd:12},{name:"Bard",hd:8},{name:"Cleric",hd:8},{name:"Druid",hd:8},{name:"Fighter",hd:10},{name:"Monk",hd:8},{name:"Paladin",hd:10},{name:"Ranger",hd:10},{name:"Rogue",hd:8},{name:"Sorcerer",hd:6},{name:"Warlock",hd:8},{name:"Wizard",hd:6}];
@@ -91,15 +91,25 @@ function mkTheme(dark) {
   };
 }
 
+const LS_KEY = "dnd-sheet-character";
+const LS_THEME = "dnd-sheet-theme";
+
+function loadCharacter() {
+  try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch { return null; }
+}
+
 export default function Sheet() {
-  const [C, setC]         = useState(JSON.parse(JSON.stringify(DEFAULT)));
+  const [C, setC]         = useState(() => ({ ...JSON.parse(JSON.stringify(DEFAULT)), ...(loadCharacter() ?? {}) }));
   const [tab, setTab]     = useState("core");
-  const [dark, setDark]   = useState(true);
+  const [dark, setDark]   = useState(() => localStorage.getItem(LS_THEME) !== "light");
   const [hpOpen, setHpOpen]     = useState(false);
   const [hpDelta, setHpDelta]   = useState("");
   const [resetOpen, setResetOpen] = useState(false);
   const [spellOpen, setSpellOpen] = useState({0:true,1:true,2:false,3:false,4:false,5:false,6:false,7:false,8:false,9:false});
   const [spellDesc, setSpellDesc] = useState({});
+
+  useEffect(() => { try { localStorage.setItem(LS_KEY, JSON.stringify(C)); } catch {} }, [C]);
+  useEffect(() => { localStorage.setItem(LS_THEME, dark ? "dark" : "light"); }, [dark]);
 
   const T = mkTheme(dark);
   const upd = useCallback((path,val)=>setC(prev=>deepSet(prev,path,val)),[]);
