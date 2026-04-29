@@ -180,7 +180,7 @@ export default function Sheet() {
               const m=mods[ab]; const sv=C.saves[ab]; const st=m+(sv?PB:0);
               return (
                 <div key={ab} style={{display:'flex', alignItems:'center', gap:10, padding:'8px 10px', borderRadius:8, background:T.surface, border:`1px solid ${T.border}`}}>
-                  <div style={{width:84, fontSize:12, color:T.sub, fontWeight:500}}>{names[ab]}</div>
+                  <div style={{flex:1, minWidth:60, fontSize:12, color:T.sub, fontWeight:500}}>{names[ab]}</div>
                   <input type="number" min={1} max={30} value={C.abilities[ab]}
                     onChange={e=>upd(`abilities.${ab}`,Math.max(1,Math.min(30,parseInt(e.target.value)||1)))}
                     style={{...numInp, width:46, fontSize:15, fontWeight:700}}/>
@@ -275,7 +275,7 @@ export default function Sheet() {
           </StatBox>
           <StatBox label="Temp HP"><input type="number" min={0} value={C.combat.tempHp} onChange={e=>upd("combat.tempHp",parseInt(e.target.value)||0)} style={{...numInp, fontSize:22, fontWeight:800, width:'100%', color:T.text}}/></StatBox>
         </div>
-        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:16}}>
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(150px,1fr))', gap:16}}>
           <div>
             <div style={label}>Hit Dice</div>
             <div style={{fontSize:15, fontWeight:700, color:T.text, marginBottom:6}}>{lvl}d{hd}</div>
@@ -304,24 +304,21 @@ export default function Sheet() {
           <div style={label}>Attacks & Spellcasting</div>
           <button onClick={()=>setC(p=>({...p,attacks:[...p.attacks,{name:"",bonus:"",damage:"",notes:""}]}))} style={btn('primary')}><Plus size={12}/>Add Attack</button>
         </div>
-        <div style={{overflowX:'auto'}}>
-          <table style={{width:'100%', fontSize:12, borderCollapse:'collapse'}}>
-            <thead><tr style={{color:T.sub, borderBottom:`1px solid ${T.border}`}}>
-              {["Name","Atk Bonus","Damage / Type","Notes",""].map(h=><th key={h} style={{textAlign:'left', padding:'4px 6px', fontWeight:600}}>{h}</th>)}
-            </tr></thead>
-            <tbody>
-              {C.attacks.length===0&&<tr><td colSpan={5} style={{textAlign:'center', padding:20, color:T.muted, fontStyle:'italic'}}>No attacks — add one above</td></tr>}
-              {C.attacks.map((a,i)=>(
-                <tr key={i} style={{borderBottom:`1px solid ${T.border}`}}>
-                  <td style={{padding:'4px 4px 4px 0'}}><input value={a.name} onChange={e=>{const arr=[...C.attacks];arr[i]={...arr[i],name:e.target.value};upd("attacks",arr);}} style={inp} placeholder="Name"/></td>
-                  <td style={{padding:'4px 4px'}}><input value={a.bonus} onChange={e=>{const arr=[...C.attacks];arr[i]={...arr[i],bonus:e.target.value};upd("attacks",arr);}} style={{...inp, width:64}} placeholder="+5"/></td>
-                  <td style={{padding:'4px 4px'}}><input value={a.damage} onChange={e=>{const arr=[...C.attacks];arr[i]={...arr[i],damage:e.target.value};upd("attacks",arr);}} style={inp} placeholder="1d8+3 slashing"/></td>
-                  <td style={{padding:'4px 4px'}}><input value={a.notes} onChange={e=>{const arr=[...C.attacks];arr[i]={...arr[i],notes:e.target.value};upd("attacks",arr);}} style={inp} placeholder="Notes"/></td>
-                  <td style={{padding:'4px 0 4px 4px'}}><button onClick={()=>upd("attacks",C.attacks.filter((_,j)=>j!==i))} style={{...btn('danger'), padding:'4px 6px'}}><Trash2 size={11}/></button></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {C.attacks.length===0&&<div style={{textAlign:'center', padding:20, color:T.muted, fontStyle:'italic'}}>No attacks — add one above</div>}
+        <div style={{display:'flex', flexDirection:'column', gap:8}}>
+          {C.attacks.map((a,i)=>(
+            <div key={i} style={{background:T.surface, borderRadius:8, padding:10, border:`1px solid ${T.border}`}}>
+              <div style={{display:'flex', gap:8, marginBottom:6}}>
+                <input value={a.name} onChange={e=>{const arr=[...C.attacks];arr[i]={...arr[i],name:e.target.value};upd("attacks",arr);}} style={{...inp, fontWeight:600}} placeholder="Attack name"/>
+                <button onClick={()=>upd("attacks",C.attacks.filter((_,j)=>j!==i))} style={{...btn('danger'), flexShrink:0, padding:'4px 8px'}}><Trash2 size={11}/></button>
+              </div>
+              <div style={{display:'grid', gridTemplateColumns:'minmax(60px,90px) 1fr', gap:6, marginBottom:6}}>
+                <input value={a.bonus} onChange={e=>{const arr=[...C.attacks];arr[i]={...arr[i],bonus:e.target.value};upd("attacks",arr);}} style={{...numInp}} placeholder="+5"/>
+                <input value={a.damage} onChange={e=>{const arr=[...C.attacks];arr[i]={...arr[i],damage:e.target.value};upd("attacks",arr);}} style={inp} placeholder="1d8+3 slashing"/>
+              </div>
+              <input value={a.notes} onChange={e=>{const arr=[...C.attacks];arr[i]={...arr[i],notes:e.target.value};upd("attacks",arr);}} style={inp} placeholder="Notes"/>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -380,7 +377,7 @@ export default function Sheet() {
 
       <div style={card}>
         <div style={{...label, marginBottom:10}}>Spell Slots</div>
-        <div style={{display:'grid', gridTemplateColumns:'repeat(9, 1fr)', gap:8}}>
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(58px,1fr))', gap:8}}>
           {[1,2,3,4,5,6,7,8,9].map(l=>{
             const sl=C.spellcasting.slots[l];
             return (
@@ -424,7 +421,7 @@ export default function Sheet() {
                   const upSpC=(c,v)=>{const a=[...C.spells[lvl]];a[i]={...a[i],components:{...(a[i].components||{}),[c]:v}};setSpArr(a);};
                   return (
                     <div key={i} style={{background:T.surface, borderRadius:8, padding:10, border:`1px solid ${T.border}`}}>
-                      <div style={{display:'grid', gridTemplateColumns:'1fr 160px', gap:8, marginBottom:8}}>
+                      <div style={{display:'grid', gridTemplateColumns:'1fr minmax(100px,160px)', gap:8, marginBottom:8}}>
                         <div style={{display:'flex', alignItems:'center', gap:8}}>
                           {lvl>0&&<label style={{display:'flex', alignItems:'center', gap:4, fontSize:11, color:T.sub, whiteSpace:'nowrap'}}><input type="checkbox" checked={sp.prepared||false} onChange={e=>upSp("prepared",e.target.checked)} style={{accentColor:T.accent}}/>Prep</label>}
                           <input value={sp.name||""} onChange={e=>upSp("name",e.target.value)} style={{...inp, fontWeight:600}} placeholder="Spell name"/>
@@ -433,7 +430,7 @@ export default function Sheet() {
                           {SCHOOLS.map(s=><option key={s}>{s}</option>)}
                         </select>
                       </div>
-                      <div style={{display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:8, marginBottom:8}}>
+                      <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(110px,1fr))', gap:8, marginBottom:8}}>
                         <input value={sp.castingTime||""} onChange={e=>upSp("castingTime",e.target.value)} style={inp} placeholder="Casting time"/>
                         <input value={sp.range||""} onChange={e=>upSp("range",e.target.value)} style={inp} placeholder="Range"/>
                         <input value={sp.duration||""} onChange={e=>upSp("duration",e.target.value)} style={inp} placeholder="Duration"/>
@@ -470,7 +467,7 @@ export default function Sheet() {
     <div style={{display:'flex', flexDirection:'column', gap:16}}>
       <div style={card}>
         <div style={{...label, marginBottom:10}}>Currency</div>
-        <div style={{display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:10}}>
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(90px,1fr))', gap:10}}>
           {[["cp","CP","Copper","#b45309"],["sp","SP","Silver","#64748b"],["ep","EP","Electrum","#3b82f6"],["gp","GP","Gold","#d97706"],["pp","PP","Platinum","#8b5cf6"]].map(([k,abbr,label_,cl])=>(
             <div key={k} style={{textAlign:'center', background:T.surface, borderRadius:8, padding:10, border:`1px solid ${T.border}`}}>
               <div style={{fontSize:13, fontWeight:700, color:cl}}>{abbr}</div>
@@ -533,7 +530,7 @@ export default function Sheet() {
         </div>
       </div>
       <div style={card}><div style={label}>Character Backstory</div><textarea value={C.notes.backstory} onChange={e=>upd("notes.backstory",e.target.value)} rows={8} style={{...inp, resize:'none'}} placeholder="Your character's history and origin..."/></div>
-      <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:16}}>
+      <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px,1fr))', gap:16}}>
         <div style={card}><div style={label}>Allies & Organizations</div><textarea value={C.notes.allies} onChange={e=>upd("notes.allies",e.target.value)} rows={6} style={{...inp, resize:'none'}} placeholder="Allies, factions, organizations..."/></div>
         <div style={card}><div style={label}>Treasure</div><textarea value={C.notes.treasure} onChange={e=>upd("notes.treasure",e.target.value)} rows={6} style={{...inp, resize:'none'}} placeholder="Special items, non-tracked wealth..."/></div>
       </div>
@@ -576,7 +573,7 @@ export default function Sheet() {
       {/* ── HEADER ─────────────────────────────────────────────────── */}
       <div style={{position:'sticky', top:0, zIndex:40, borderBottom:`1px solid ${T.border}`, backdropFilter:'blur(12px)', background:T.headerBg, padding:'12px 20px'}}>
         <div style={{maxWidth:1100, margin:'0 auto'}}>
-          <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(160px,1fr))', gap:10, marginBottom:10}}>
+          <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(130px,1fr))', gap:10, marginBottom:10}}>
             <div style={{gridColumn:'span 2'}}>
               <div style={{...label, marginBottom:4}}>Character Name</div>
               <input value={C.identity.name} onChange={e=>upd("identity.name",e.target.value)}
@@ -621,7 +618,7 @@ export default function Sheet() {
               <div style={{textAlign:'center'}}><div style={label}>Prof Bonus</div><div style={{fontSize:20, fontWeight:800, color:T.accent}}>{sgn(PB)}</div></div>
               <div style={{textAlign:'center'}}><div style={label}>Passive Perc</div><div style={{fontSize:20, fontWeight:800, color:T.accent}}>{passPerc}</div></div>
             </div>
-            <div style={{display:'flex', alignItems:'center', gap:6}}>
+            <div style={{display:'flex', alignItems:'center', gap:6, flexWrap:'wrap'}}>
               <button onClick={()=>setDark(d=>!d)} style={{...btn(), padding:'6px 10px'}} title="Toggle theme">
                 {dark?<Sun size={14}/>:<Moon size={14}/>}
               </button>
@@ -641,10 +638,10 @@ export default function Sheet() {
 
       {/* ── TABS ───────────────────────────────────────────────────── */}
       <div style={{maxWidth:1100, margin:'0 auto', padding:'0 20px'}}>
-        <div style={{display:'flex', borderBottom:`1px solid ${T.border}`, marginBottom:0}}>
+        <div style={{display:'flex', borderBottom:`1px solid ${T.border}`, marginBottom:0, overflowX:'auto'}}>
           {["Core","Combat","Spells","Equipment","Notes"].map(t=>(
             <button key={t} onClick={()=>setTab(t.toLowerCase())}
-              style={{padding:'12px 16px', fontSize:13, fontWeight:600, background:'none', border:'none', cursor:'pointer', fontFamily:'inherit', transition:'all 0.15s',
+              style={{padding:'12px 12px', fontSize:13, fontWeight:600, background:'none', border:'none', cursor:'pointer', fontFamily:'inherit', transition:'all 0.15s', flexShrink:0, whiteSpace:'nowrap',
                 color: tab===t.toLowerCase()?T.accent:T.sub,
                 borderBottom: tab===t.toLowerCase()?`2px solid ${T.accent}`:'2px solid transparent',
                 marginBottom:-1,
