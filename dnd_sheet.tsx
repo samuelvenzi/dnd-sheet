@@ -645,6 +645,11 @@ export default function Sheet() {
           {tab==="notes"     && renderNotes()}
         </div>
       </div>
+      <div style={{borderTop:`1px solid ${T.border}`, padding:'16px 20px', textAlign:'center', fontSize:11, color:T.muted}}>
+        Unofficial fan tool — not affiliated with, endorsed by, or connected to Wizards of the Coast.
+        Dungeons &amp; Dragons is a trademark of Wizards of the Coast LLC.
+        Used under the <a href="https://company.wizards.com/en/legal/fancontentpolicy" target="_blank" rel="noreferrer" style={{color:T.sub}}>Fan Content Policy</a>.
+      </div>
     </div>
   );
 }

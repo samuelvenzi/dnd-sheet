@@ -1,0 +1,154 @@
+{
+  "identity": {
+    "name": "Aria Swiftblade",
+    "cls": "Ranger",
+    "level": 5,
+    "background": "Outlander",
+    "race": "Elf (Wood)",
+    "alignment": "Chaotic Good",
+    "xp": 6500
+  },
+  "abilities": {
+    "str": 14,
+    "dex": 18,
+    "con": 14,
+    "int": 12,
+    "wis": 16,
+    "cha": 10
+  },
+  "saves": {
+    "str": true,
+    "dex": true,
+    "con": false,
+    "int": false,
+    "wis": false,
+    "cha": false
+  },
+  "skills": {
+    "Acrobatics":       { "proficient": false, "expertise": false },
+    "Animal Handling":  { "proficient": true,  "expertise": false },
+    "Arcana":           { "proficient": false, "expertise": false },
+    "Athletics":        { "proficient": false, "expertise": false },
+    "Deception":        { "proficient": false, "expertise": false },
+    "History":          { "proficient": false, "expertise": false },
+    "Insight":          { "proficient": false, "expertise": false },
+    "Intimidation":     { "proficient": false, "expertise": false },
+    "Investigation":    { "proficient": false, "expertise": false },
+    "Medicine":         { "proficient": false, "expertise": false },
+    "Nature":           { "proficient": true,  "expertise": false },
+    "Perception":       { "proficient": true,  "expertise": false },
+    "Performance":      { "proficient": false, "expertise": false },
+    "Persuasion":       { "proficient": false, "expertise": false },
+    "Religion":         { "proficient": false, "expertise": false },
+    "Sleight of Hand":  { "proficient": false, "expertise": false },
+    "Stealth":          { "proficient": true,  "expertise": false },
+    "Survival":         { "proficient": true,  "expertise": false }
+  },
+  "inspiration": false,
+  "combat": {
+    "ac": 16,
+    "initOverride": null,
+    "speed": 35,
+    "maxHp": 44,
+    "currentHp": 44,
+    "tempHp": 0,
+    "hdCurrent": 5,
+    "dsSuc": [false, false, false],
+    "dsFail": [false, false, false]
+  },
+  "conditions": {
+    "Blinded": false,
+    "Charmed": false,
+    "Deafened": false,
+    "Frightened": false,
+    "Grappled": false,
+    "Incapacitated": false,
+    "Invisible": false,
+    "Paralyzed": false,
+    "Petrified": false,
+    "Poisoned": false,
+    "Prone": false,
+    "Restrained": false,
+    "Stunned": false,
+    "Unconscious": false,
+    "exhaustion": 0
+  },
+  "attacks": [
+    { "name": "Longbow",       "bonus": "+6", "damage": "1d8+4 piercing", "notes": "Range 150/600 ft" },
+    { "name": "Shortsword",    "bonus": "+6", "damage": "1d6+4 piercing", "notes": "" },
+    { "name": "Shortsword x2", "bonus": "+6", "damage": "1d6+4 piercing", "notes": "Two-weapon fighting, off-hand" }
+  ],
+  "features": [
+    { "name": "Fey Ancestry",        "description": "Advantage on saving throws against being charmed, and magic can't put you to sleep." },
+    { "name": "Darkvision",          "description": "60 ft darkvision." },
+    { "name": "Mask of the Wild",    "description": "Can attempt to hide even when only lightly obscured by natural phenomena." },
+    { "name": "Favored Enemy",       "description": "Advantage on Survival checks to track beasts and undead. Advantage on INT checks to recall information about them." },
+    { "name": "Natural Explorer",    "description": "Favored terrain: Forest. Difficult terrain doesn't slow travel. Group can't become lost by non-magical means. Always alert for danger." },
+    { "name": "Fighting Style",      "description": "Two-Weapon Fighting: add ability modifier to damage of off-hand attacks." },
+    { "name": "Spellcasting",        "description": "Wisdom-based. Spell save DC and attack bonus computed from WIS modifier and proficiency bonus." },
+    { "name": "Primeval Awareness",  "description": "Expend a spell slot to sense types of creatures within 1 mile (6 miles in favored terrain) for 1 min per slot level." },
+    { "name": "Extra Attack",        "description": "Attack twice when taking the Attack action." }
+  ],
+  "spellcasting": {
+    "cls": "Ranger",
+    "ability": "wis",
+    "slots": {
+      "1": { "total": 4, "used": 0 },
+      "2": { "total": 2, "used": 0 },
+      "3": { "total": 0, "used": 0 },
+      "4": { "total": 0, "used": 0 },
+      "5": { "total": 0, "used": 0 },
+      "6": { "total": 0, "used": 0 },
+      "7": { "total": 0, "used": 0 },
+      "8": { "total": 0, "used": 0 },
+      "9": { "total": 0, "used": 0 }
+    }
+  },
+  "spells": {
+    "0": [],
+    "1": [
+      { "name": "Hunter's Mark",  "school": "Divination",  "castingTime": "1 bonus action", "range": "90 ft",  "duration": "1 hour",        "components": { "V": true },                          "concentration": true,  "ritual": false, "prepared": true, "description": "" },
+      { "name": "Cure Wounds",    "school": "Evocation",   "castingTime": "1 action",        "range": "Touch",  "duration": "Instantaneous", "components": { "V": true, "S": true },               "concentration": false, "ritual": false, "prepared": true, "description": "" },
+      { "name": "Fog Cloud",      "school": "Conjuration", "castingTime": "1 action",        "range": "120 ft", "duration": "1 hour",        "components": { "V": true, "S": true },               "concentration": true,  "ritual": false, "prepared": true, "description": "" }
+    ],
+    "2": [
+      { "name": "Pass Without Trace", "school": "Abjuration", "castingTime": "1 action", "range": "Self", "duration": "1 hour", "components": { "V": true, "S": true, "M": true }, "concentration": true, "ritual": false, "prepared": true, "description": "" }
+    ],
+    "3": [], "4": [], "5": [], "6": [], "7": [], "8": [], "9": []
+  },
+  "equipment": {
+    "cp": 0,
+    "sp": 0,
+    "ep": 0,
+    "gp": 150,
+    "pp": 0,
+    "items": [
+      { "name": "Longbow",             "qty": 1,  "weight": 2,  "value": "50 gp",  "notes": "",                        "equipped": true  },
+      { "name": "Arrows",              "qty": 40, "weight": 1,  "value": "1 gp",   "notes": "",                        "equipped": true  },
+      { "name": "Shortsword",          "qty": 2,  "weight": 2,  "value": "10 gp",  "notes": "",                        "equipped": true  },
+      { "name": "Studded Leather",     "qty": 1,  "weight": 13, "value": "45 gp",  "notes": "AC 12 + DEX",             "equipped": true  },
+      { "name": "Explorer's Pack",     "qty": 1,  "weight": 10, "value": "10 gp",  "notes": "",                        "equipped": false },
+      { "name": "Hunting Trap",        "qty": 1,  "weight": 25, "value": "5 gp",   "notes": "",                        "equipped": false },
+      { "name": "Healing Potion",      "qty": 2,  "weight": 0,  "value": "50 gp",  "notes": "",                        "equipped": false }
+    ]
+  },
+  "notes": {
+    "backstory": "Raised among the wood elves of the Whisperwood, Aria left her home after her village was razed by a band of undead. She now wanders the frontier, hunting creatures of darkness.",
+    "allies": "Theren (wood elf scout, childhood friend), The Emerald Wardens (ranger order)",
+    "additional": "",
+    "treasure": "",
+    "appearance": {
+      "age": "127",
+      "height": "5'6\"",
+      "weight": "125 lb",
+      "eyes": "Green",
+      "skin": "Copper",
+      "hair": "Auburn"
+    }
+  },
+  "profLangs": "Common, Elvish, Sylvan. Light armor, medium armor, shields, simple weapons, martial weapons. Herbalism kit.",
+  "personalityTraits": "I place no stock in wealthy or well-mannered folk. Money and manners won't save you from a hungry owlbear.",
+  "ideals": "Nature: The natural world is more important than all the constructs of civilization.",
+  "bonds": "My family was killed by raiders. I will find them and make them pay.",
+  "flaws": "I remember every insult I've received and nurse a silent grudge against anyone who wrongs me."
+}
