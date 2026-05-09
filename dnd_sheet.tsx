@@ -11,6 +11,8 @@ import {
   Heart,
   Sun,
   Moon,
+  Pencil,
+  Check,
 } from "lucide-react";
 
 const CLASSES = [
@@ -308,6 +310,7 @@ export default function Sheet() {
     9: false,
   });
   const [spellDesc, setSpellDesc] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     try {
@@ -2066,6 +2069,19 @@ export default function Sheet() {
         fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
       }}
     >
+      <style>{`
+        fieldset:disabled input,
+        fieldset:disabled select,
+        fieldset:disabled textarea {
+          cursor: default;
+          opacity: 1;
+        }
+        fieldset:disabled button {
+          cursor: default;
+          opacity: 0.4;
+          pointer-events: none;
+        }
+      `}</style>
       {/* HP Modal */}
       {hpOpen && (
         <div
@@ -2273,12 +2289,15 @@ export default function Sheet() {
         }}
       >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div
+          <fieldset
+            disabled={!editMode}
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(130px,1fr))",
               gap: 10,
-              marginBottom: 10,
+              border: "none",
+              padding: 0,
+              margin: "0 0 10px",
             }}
           >
             <div style={{ gridColumn: "span 2" }}>
@@ -2370,7 +2389,7 @@ export default function Sheet() {
                 ))}
               </select>
             </div>
-          </div>
+          </fieldset>
           <div
             style={{
               display: "flex",
@@ -2453,6 +2472,13 @@ export default function Sheet() {
                 <Upload size={12} />
                 Import
               </button>
+              <button
+                onClick={() => setEditMode((e) => !e)}
+                style={btn(editMode ? "success" : "default")}
+              >
+                {editMode ? <Check size={12} /> : <Pencil size={12} />}
+                {editMode ? "Done" : "Edit"}
+              </button>
               <button onClick={() => setResetOpen(true)} style={btn("danger")}>
                 <RotateCcw size={12} />
                 Reset
@@ -2499,13 +2525,16 @@ export default function Sheet() {
             </button>
           ))}
         </div>
-        <div style={{ padding: "20px 0 40px" }}>
+        <fieldset
+          disabled={!editMode}
+          style={{ border: "none", padding: "20px 0 40px", margin: 0 }}
+        >
           {tab === "core" && renderCore()}
           {tab === "combat" && renderCombat()}
           {tab === "spells" && renderSpells()}
           {tab === "equipment" && renderEquipment()}
           {tab === "notes" && renderNotes()}
-        </div>
+        </fieldset>
       </div>
       <div
         style={{
