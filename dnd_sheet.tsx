@@ -549,7 +549,7 @@ export default function Sheet() {
     >
       {/* Abilities */}
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <div style={card}>
+        <fieldset disabled={!editMode} style={{ ...card, border: `1px solid ${T.border}`, padding: 16, margin: 0 }}>
           <div style={label}>Ability Scores</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {["str", "dex", "con", "int", "wis", "cha"].map((ab) => {
@@ -651,7 +651,7 @@ export default function Sheet() {
               );
             })}
           </div>
-        </div>
+        </fieldset>
         <div
           style={{
             ...card,
@@ -690,7 +690,7 @@ export default function Sheet() {
       </div>
 
       {/* Skills */}
-      <div style={{ ...card, alignSelf: "start" }}>
+      <fieldset disabled={!editMode} style={{ ...card, alignSelf: "start", border: `1px solid ${T.border}`, padding: 16, margin: 0 }}>
         <div
           style={{
             display: "flex",
@@ -809,10 +809,11 @@ export default function Sheet() {
             );
           })}
         </div>
-      </div>
+      </fieldset>
 
       {/* Personality */}
-      <div
+      <fieldset
+        disabled={!editMode}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -847,7 +848,7 @@ export default function Sheet() {
             placeholder="Armor, weapons, tools, languages..."
           />
         </div>
-      </div>
+      </fieldset>
     </div>
   );
 
@@ -867,6 +868,7 @@ export default function Sheet() {
             <input
               type="number"
               min={0}
+              disabled={!editMode}
               value={C.combat.ac}
               onChange={(e) => upd("combat.ac", parseInt(e.target.value) || 0)}
               style={{
@@ -884,6 +886,7 @@ export default function Sheet() {
             </div>
             <input
               type="number"
+              disabled={!editMode}
               value={C.combat.initOverride ?? ""}
               onChange={(e) =>
                 upd(
@@ -899,6 +902,7 @@ export default function Sheet() {
             <input
               type="number"
               min={0}
+              disabled={!editMode}
               value={C.combat.speed}
               onChange={(e) =>
                 upd("combat.speed", parseInt(e.target.value) || 0)
@@ -916,6 +920,7 @@ export default function Sheet() {
             <input
               type="number"
               min={0}
+              disabled={!editMode}
               value={C.combat.maxHp}
               onChange={(e) =>
                 upd("combat.maxHp", parseInt(e.target.value) || 0)
@@ -1061,7 +1066,7 @@ export default function Sheet() {
       </div>
 
       {/* Attacks */}
-      <div style={card}>
+      <fieldset disabled={!editMode} style={{ ...card, border: `1px solid ${T.border}`, padding: 16, margin: 0 }}>
         <div
           style={{
             display: "flex",
@@ -1179,7 +1184,7 @@ export default function Sheet() {
             </div>
           ))}
         </div>
-      </div>
+      </fieldset>
 
       {/* Conditions */}
       <div style={card}>
@@ -1214,7 +1219,7 @@ export default function Sheet() {
       </div>
 
       {/* Features */}
-      <div style={card}>
+      <fieldset disabled={!editMode} style={{ ...card, border: `1px solid ${T.border}`, padding: 16, margin: 0 }}>
         <div
           style={{
             display: "flex",
@@ -1301,19 +1306,23 @@ export default function Sheet() {
             </div>
           ))}
         </div>
-      </div>
+      </fieldset>
     </div>
   );
 
   // ── SPELLS ───────────────────────────────────────────────────────────
   const renderSpells = () => (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <div
+      <fieldset
+        disabled={!editMode}
         style={{
           ...card,
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(140px,1fr))",
           gap: 12,
+          border: `1px solid ${T.border}`,
+          padding: 16,
+          margin: 0,
         }}
       >
         <div>
@@ -1339,7 +1348,7 @@ export default function Sheet() {
         </div>
         <StatBox label="Spell Save DC" value={spDC} accent />
         <StatBox label="Spell Attack Bonus" value={sgn(spAtk)} accent />
-      </div>
+      </fieldset>
 
       <div style={card}>
         <div style={{ ...label, marginBottom: 10 }}>Spell Slots</div>
@@ -1377,6 +1386,7 @@ export default function Sheet() {
                   type="number"
                   min={0}
                   max={10}
+                  disabled={!editMode}
                   value={sl.total}
                   onChange={(e) =>
                     setC((p) =>
@@ -1535,6 +1545,7 @@ export default function Sheet() {
                             </label>
                           )}
                           <input
+                            disabled={!editMode}
                             value={sp.name || ""}
                             onChange={(e) => upSp("name", e.target.value)}
                             style={{ ...inp, fontWeight: 600 }}
@@ -1542,6 +1553,7 @@ export default function Sheet() {
                           />
                         </div>
                         <select
+                          disabled={!editMode}
                           value={sp.school || "Evocation"}
                           onChange={(e) => upSp("school", e.target.value)}
                           style={inp}
@@ -1561,18 +1573,21 @@ export default function Sheet() {
                         }}
                       >
                         <input
+                          disabled={!editMode}
                           value={sp.castingTime || ""}
                           onChange={(e) => upSp("castingTime", e.target.value)}
                           style={inp}
                           placeholder="Casting time"
                         />
                         <input
+                          disabled={!editMode}
                           value={sp.range || ""}
                           onChange={(e) => upSp("range", e.target.value)}
                           style={inp}
                           placeholder="Range"
                         />
                         <input
+                          disabled={!editMode}
                           value={sp.duration || ""}
                           onChange={(e) => upSp("duration", e.target.value)}
                           style={inp}
@@ -1601,6 +1616,7 @@ export default function Sheet() {
                           >
                             <input
                               type="checkbox"
+                              disabled={!editMode}
                               checked={(sp.components || {})[c] || false}
                               onChange={(e) => upSpC(c, e.target.checked)}
                               style={{ accentColor: T.accent }}
@@ -1620,6 +1636,7 @@ export default function Sheet() {
                         >
                           <input
                             type="checkbox"
+                            disabled={!editMode}
                             checked={sp.concentration || false}
                             onChange={(e) =>
                               upSp("concentration", e.target.checked)
@@ -1640,6 +1657,7 @@ export default function Sheet() {
                         >
                           <input
                             type="checkbox"
+                            disabled={!editMode}
                             checked={sp.ritual || false}
                             onChange={(e) => upSp("ritual", e.target.checked)}
                             style={{ accentColor: T.accent }}
@@ -1654,17 +1672,20 @@ export default function Sheet() {
                         >
                           {dOpen ? "▲ Hide" : "▼ Desc"}
                         </button>
-                        <button
-                          onClick={() =>
-                            setSpArr(C.spells[lvl].filter((_, j) => j !== i))
-                          }
-                          style={{ ...btn("danger"), padding: "4px 8px" }}
-                        >
-                          <Trash2 size={11} />
-                        </button>
+                        {editMode && (
+                          <button
+                            onClick={() =>
+                              setSpArr(C.spells[lvl].filter((_, j) => j !== i))
+                            }
+                            style={{ ...btn("danger"), padding: "4px 8px" }}
+                          >
+                            <Trash2 size={11} />
+                          </button>
+                        )}
                       </div>
                       {dOpen && (
                         <textarea
+                          disabled={!editMode}
                           value={sp.description || ""}
                           onChange={(e) => upSp("description", e.target.value)}
                           rows={3}
@@ -1675,35 +1696,37 @@ export default function Sheet() {
                     </div>
                   );
                 })}
-                <button
-                  onClick={() => {
-                    const a = [
-                      ...C.spells[lvl],
-                      {
-                        name: "",
-                        school: "Evocation",
-                        castingTime: "",
-                        range: "",
-                        duration: "",
-                        components: {},
-                        concentration: false,
-                        ritual: false,
-                        prepared: false,
-                        description: "",
-                      },
-                    ];
-                    setC((p) => deepSet(p, `spells.${lvl}`, a));
-                  }}
-                  style={{
-                    ...btn("primary"),
-                    justifyContent: "center",
-                    width: "100%",
-                    padding: "8px",
-                  }}
-                >
-                  <Plus size={12} />
-                  Add {lvl === 0 ? "Cantrip" : "Spell"}
-                </button>
+                {editMode && (
+                  <button
+                    onClick={() => {
+                      const a = [
+                        ...C.spells[lvl],
+                        {
+                          name: "",
+                          school: "Evocation",
+                          castingTime: "",
+                          range: "",
+                          duration: "",
+                          components: {},
+                          concentration: false,
+                          ritual: false,
+                          prepared: false,
+                          description: "",
+                        },
+                      ];
+                      setC((p) => deepSet(p, `spells.${lvl}`, a));
+                    }}
+                    style={{
+                      ...btn("primary"),
+                      justifyContent: "center",
+                      width: "100%",
+                      padding: "8px",
+                    }}
+                  >
+                    <Plus size={12} />
+                    Add {lvl === 0 ? "Cantrip" : "Spell"}
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -1789,7 +1812,7 @@ export default function Sheet() {
           }}
         >
           <div style={label}>Inventory</div>
-          <button
+          {editMode && <button
             onClick={() =>
               setC((p) => ({
                 ...p,
@@ -1813,7 +1836,7 @@ export default function Sheet() {
           >
             <Plus size={12} />
             Add Item
-          </button>
+          </button>}
         </div>
         <div style={{ overflowX: "auto" }}>
           <table
@@ -1879,6 +1902,7 @@ export default function Sheet() {
                     </td>
                     <td style={{ padding: "4px 4px" }}>
                       <input
+                        disabled={!editMode}
                         value={it.name || ""}
                         onChange={(e) => upIt("name", e.target.value)}
                         style={inp}
@@ -1901,6 +1925,7 @@ export default function Sheet() {
                         type="number"
                         min={0}
                         step={0.1}
+                        disabled={!editMode}
                         value={it.weight || 0}
                         onChange={(e) =>
                           upIt("weight", parseFloat(e.target.value) || 0)
@@ -1910,6 +1935,7 @@ export default function Sheet() {
                     </td>
                     <td style={{ padding: "4px 4px" }}>
                       <input
+                        disabled={!editMode}
                         value={it.value || ""}
                         onChange={(e) => upIt("value", e.target.value)}
                         style={{ ...inp, width: 70 }}
@@ -1918,6 +1944,7 @@ export default function Sheet() {
                     </td>
                     <td style={{ padding: "4px 4px" }}>
                       <input
+                        disabled={!editMode}
                         value={it.notes || ""}
                         onChange={(e) => upIt("notes", e.target.value)}
                         style={inp}
@@ -1925,17 +1952,19 @@ export default function Sheet() {
                       />
                     </td>
                     <td style={{ padding: "4px 0 4px 4px" }}>
-                      <button
-                        onClick={() =>
-                          upd(
-                            "equipment.items",
-                            C.equipment.items.filter((_, j) => j !== i),
-                          )
-                        }
-                        style={{ ...btn("danger"), padding: "4px 6px" }}
-                      >
-                        <Trash2 size={11} />
-                      </button>
+                      {editMode && (
+                        <button
+                          onClick={() =>
+                            upd(
+                              "equipment.items",
+                              C.equipment.items.filter((_, j) => j !== i),
+                            )
+                          }
+                          style={{ ...btn("danger"), padding: "4px 6px" }}
+                        >
+                          <Trash2 size={11} />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );
@@ -1974,7 +2003,7 @@ export default function Sheet() {
 
   // ── NOTES ────────────────────────────────────────────────────────────
   const renderNotes = () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+    <fieldset disabled={!editMode} style={{ display: "flex", flexDirection: "column", gap: 16, border: "none", padding: 0, margin: 0 }}>
       <div style={card}>
         <div style={{ ...label, marginBottom: 10 }}>Appearance</div>
         <div
@@ -2056,7 +2085,7 @@ export default function Sheet() {
           placeholder="Any other notes..."
         />
       </div>
-    </div>
+    </fieldset>
   );
 
   // ── ROOT ─────────────────────────────────────────────────────────────
@@ -2525,16 +2554,13 @@ export default function Sheet() {
             </button>
           ))}
         </div>
-        <fieldset
-          disabled={!editMode}
-          style={{ border: "none", padding: "20px 0 40px", margin: 0 }}
-        >
+        <div style={{ padding: "20px 0 40px" }}>
           {tab === "core" && renderCore()}
           {tab === "combat" && renderCombat()}
           {tab === "spells" && renderSpells()}
           {tab === "equipment" && renderEquipment()}
           {tab === "notes" && renderNotes()}
-        </fieldset>
+        </div>
       </div>
       <div
         style={{
