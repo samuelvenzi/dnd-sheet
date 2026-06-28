@@ -1850,10 +1850,10 @@ export default function Sheet() {
               <tr
                 style={{ color: T.sub, borderBottom: `1px solid ${T.border}` }}
               >
-                {["Eq", "Name", "Qty", "Wt (lb)", "Value", "Notes", ""].map(
-                  (h) => (
+                {["Eq", "Name", "Qty", "Wt (lb)", "Value", "Notes", "", ""].map(
+                  (h, hi) => (
                     <th
-                      key={h}
+                      key={hi}
                       style={{
                         textAlign: "left",
                         padding: "4px 6px",
@@ -1870,7 +1870,7 @@ export default function Sheet() {
               {C.equipment.items.length === 0 && (
                 <tr>
                   <td
-                    colSpan={7}
+                    colSpan={8}
                     style={{
                       textAlign: "center",
                       padding: 20,
@@ -1886,6 +1886,13 @@ export default function Sheet() {
                 const upIt = (f, v) => {
                   const items = [...C.equipment.items];
                   items[i] = { ...items[i], [f]: v };
+                  upd("equipment.items", items);
+                };
+                const move = (dir) => {
+                  const j = i + dir;
+                  if (j < 0 || j >= C.equipment.items.length) return;
+                  const items = [...C.equipment.items];
+                  [items[i], items[j]] = [items[j], items[i]];
                   upd("equipment.items", items);
                 };
                 return (
@@ -1954,6 +1961,38 @@ export default function Sheet() {
                         style={inp}
                         placeholder="Notes"
                       />
+                    </td>
+                    <td style={{ padding: "4px 4px" }}>
+                      <div style={{ display: "flex", gap: 2 }}>
+                        <button
+                          onClick={() => move(-1)}
+                          disabled={i === 0}
+                          style={{
+                            ...btn("default"),
+                            padding: "4px 6px",
+                            opacity: i === 0 ? 0.4 : 1,
+                            cursor: i === 0 ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          <ChevronUp size={11} />
+                        </button>
+                        <button
+                          onClick={() => move(1)}
+                          disabled={i === C.equipment.items.length - 1}
+                          style={{
+                            ...btn("default"),
+                            padding: "4px 6px",
+                            opacity:
+                              i === C.equipment.items.length - 1 ? 0.4 : 1,
+                            cursor:
+                              i === C.equipment.items.length - 1
+                                ? "not-allowed"
+                                : "pointer",
+                          }}
+                        >
+                          <ChevronDown size={11} />
+                        </button>
+                      </div>
                     </td>
                     <td style={{ padding: "4px 0 4px 4px" }}>
                       {editMode && (
