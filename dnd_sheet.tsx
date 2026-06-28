@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, Fragment } from "react";
 import {
   Trash2,
   Plus,
@@ -1834,6 +1834,7 @@ export default function Sheet() {
                       weight: 0,
                       value: "",
                       notes: "",
+                      description: "",
                       equipped: false,
                       attuned: false,
                     },
@@ -1911,10 +1912,9 @@ export default function Sheet() {
                 };
                 const attuneAtMax = attuneUsed >= attuneMax;
                 return (
+                  <Fragment key={i}>
                   <tr
-                    key={i}
                     style={{
-                      borderBottom: `1px solid ${T.border}`,
                       background: it.equipped ? T.accentSoft : "transparent",
                     }}
                   >
@@ -2048,6 +2048,23 @@ export default function Sheet() {
                       )}
                     </td>
                   </tr>
+                  <tr
+                    style={{
+                      borderBottom: `1px solid ${T.border}`,
+                      background: it.equipped ? T.accentSoft : "transparent",
+                    }}
+                  >
+                    <td colSpan={9} style={{ padding: "0 6px 8px 6px" }}>
+                      <textarea
+                        value={it.description || ""}
+                        onChange={(e) => upIt("description", e.target.value)}
+                        rows={3}
+                        style={txtArea}
+                        placeholder="Description..."
+                      />
+                    </td>
+                  </tr>
+                  </Fragment>
                 );
               })}
             </tbody>
