@@ -185,7 +185,7 @@ const DEFAULT = {
   features: [],
   spellcasting: { cls: "", ability: "int", slots: defSlots() },
   spells: defSpells(),
-  equipment: { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0, items: [] },
+  equipment: { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0, items: [], attuneMax: 3 },
   notes: {
     backstory: "",
     allies: "",
@@ -1740,7 +1740,11 @@ export default function Sheet() {
   );
 
   // ── EQUIPMENT ────────────────────────────────────────────────────────
-  const renderEquipment = () => (
+  const renderEquipment = () => {
+    const attuneMax = C.equipment.attuneMax ?? 3;
+    const attuneUsed = C.equipment.items.filter((it) => it.attuned === true)
+      .length;
+    return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={card}>
         <div style={{ ...label, marginBottom: 10 }}>Currency</div>
@@ -1831,6 +1835,7 @@ export default function Sheet() {
                       value: "",
                       notes: "",
                       equipped: false,
+                      attuned: false,
                     },
                   ],
                 },
@@ -1850,8 +1855,17 @@ export default function Sheet() {
               <tr
                 style={{ color: T.sub, borderBottom: `1px solid ${T.border}` }}
               >
-                {["Eq", "Name", "Qty", "Wt (lb)", "Value", "Notes", "", ""].map(
-                  (h, hi) => (
+                {[
+                  "Eq",
+                  "Att",
+                  "Name",
+                  "Qty",
+                  "Wt (lb)",
+                  "Value",
+                  "Notes",
+                  "",
+                  "",
+                ].map((h, hi) => (
                     <th
                       key={hi}
                       style={{
@@ -1870,7 +1884,7 @@ export default function Sheet() {
               {C.equipment.items.length === 0 && (
                 <tr>
                   <td
-                    colSpan={8}
+                    colSpan={9}
                     style={{
                       textAlign: "center",
                       padding: 20,
@@ -1895,6 +1909,7 @@ export default function Sheet() {
                   [items[i], items[j]] = [items[j], items[i]];
                   upd("equipment.items", items);
                 };
+                const attuneAtMax = attuneUsed >= attuneMax;
                 return (
                   <tr
                     key={i}
@@ -1909,6 +1924,29 @@ export default function Sheet() {
                         checked={it.equipped || false}
                         onChange={(e) => upIt("equipped", e.target.checked)}
                         style={{ accentColor: T.accent, width: 14, height: 14 }}
+                      />
+                    </td>
+                    <td style={{ padding: "4px 6px" }}>
+                      <input
+                        type="checkbox"
+                        checked={it.attuned || false}
+                        disabled={!it.attuned && attuneAtMax}
+                        onChange={(e) => {
+                          if (e.target.checked && attuneAtMax) return;
+                          upIt("attuned", e.target.checked);
+                        }}
+                        title={
+                          !it.attuned && attuneAtMax
+                            ? "Attunement slots are full"
+                            : "Attuned"
+                        }
+                        style={{
+                          accentColor: T.accent,
+                          width: 14,
+                          height: 14,
+                          cursor:
+                            !it.attuned && attuneAtMax ? "not-allowed" : "pointer",
+                        }}
                       />
                     </td>
                     <td style={{ padding: "4px 4px" }}>
@@ -2039,10 +2077,41 @@ export default function Sheet() {
           >
             {encSt}
           </span>
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              marginLeft: "auto",
+            }}
+          >
+            <span style={{ ...label, marginBottom: 0 }}>Attunement</span>
+            <strong
+              style={{
+                color: attuneUsed >= attuneMax ? T.danger : T.accent,
+              }}
+            >
+              {attuneUsed}
+            </strong>
+            <span style={{ color: T.muted }}>/</span>
+            <input
+              type="number"
+              min={0}
+              value={attuneMax}
+              onChange={(e) =>
+                upd(
+                  "equipment.attuneMax",
+                  Math.max(0, parseInt(e.target.value) || 0),
+                )
+              }
+              style={{ ...numInp, width: 48 }}
+            />
+          </span>
         </div>
       </div>
     </div>
-  );
+    );
+  };
 
   // ── NOTES ────────────────────────────────────────────────────────────
   const renderNotes = () => (
