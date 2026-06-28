@@ -1834,7 +1834,6 @@ export default function Sheet() {
                       weight: 0,
                       value: "",
                       notes: "",
-                      description: "",
                       equipped: false,
                       attuned: false,
                     },
@@ -1863,7 +1862,6 @@ export default function Sheet() {
                   "Qty",
                   "Wt (lb)",
                   "Value",
-                  "Notes",
                   "",
                   "",
                 ].map((h, hi) => (
@@ -1885,7 +1883,7 @@ export default function Sheet() {
               {C.equipment.items.length === 0 && (
                 <tr>
                   <td
-                    colSpan={9}
+                    colSpan={8}
                     style={{
                       textAlign: "center",
                       padding: 20,
@@ -1992,15 +1990,6 @@ export default function Sheet() {
                       />
                     </td>
                     <td style={{ padding: "4px 4px" }}>
-                      <input
-                        disabled={!editMode}
-                        value={it.notes || ""}
-                        onChange={(e) => upIt("notes", e.target.value)}
-                        style={inp}
-                        placeholder="Notes"
-                      />
-                    </td>
-                    <td style={{ padding: "4px 4px" }}>
                       <div style={{ display: "flex", gap: 2 }}>
                         <button
                           onClick={() => move(-1)}
@@ -2054,13 +2043,14 @@ export default function Sheet() {
                       background: it.equipped ? T.accentSoft : "transparent",
                     }}
                   >
-                    <td colSpan={9} style={{ padding: "0 6px 8px 6px" }}>
+                    <td colSpan={8} style={{ padding: "0 6px 8px 6px" }}>
                       <textarea
-                        value={it.description || ""}
-                        onChange={(e) => upIt("description", e.target.value)}
+                        disabled={!editMode}
+                        value={it.notes || ""}
+                        onChange={(e) => upIt("notes", e.target.value)}
                         rows={3}
                         style={txtArea}
-                        placeholder="Description..."
+                        placeholder="Notes..."
                       />
                     </td>
                   </tr>
