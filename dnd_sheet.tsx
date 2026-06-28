@@ -322,6 +322,10 @@ export default function Sheet() {
   }, [dark]);
 
   const T = mkTheme(dark);
+  useEffect(() => {
+    document.documentElement.style.backgroundColor = T.bg;
+    document.body.style.backgroundColor = T.bg;
+  }, [T.bg]);
   const upd = useCallback(
     (path, val) => setC((prev) => deepSet(prev, path, val)),
     [],
